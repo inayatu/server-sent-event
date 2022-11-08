@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SSE - Server Sent Events</title>
+    <style>
+        .main{
+            display: flex;
+            padding: 20px;
+            border: 1px solid burlywood;
+        }
+
+        .events{
+            padding: 10px;
+        }
+
+        .clients{
+            padding: 10px;
+        }
+
+    </style>
+  </head>
+  <body>
+    <center>
+      <h1>Welcome to Server Sent Events - SSE</h1>
+      <br />
+      <br />
+    </center>
+    <div class="main">
+      <div class="events">
+        <h3>Events</h3>
+        <div id="info"></div>
+      </div>
+      <div class="clients">
+        <h3>Clients</h3>
+        <ul id="clients"></ul>
+
+    </div>
+  </body>
+
+  <script>
+    const es = new EventSource("/events");
+    es.onmessage = (event) => {
+        console.log(event)
+        const parsedData = JSON.parse(event.data);
+        const info = document.getElementById('info')
+        const source = document.createElement('h4')
+        source.innerText = `Source: ${parsedData.source}`;
+        const info_ = document.createElement('h4') 
+        info_.innerText = `Info: ${parsedData.info}`;
+
+        info.appendChild(source)
+        info.appendChild(info_)
+    };
+  </script>
+</html>
